@@ -1,0 +1,41 @@
+form {
+  width: 500px;
+  padding: 25px 0;
+  margin: 0 auto;
+  font: normal 13px Arial, Helvetica, sans-serif;
+  color: #333333; }
+fieldset {
+  width: 245px;
+  padding: 0;
+  margin: 0 auto;
+  border: none; }
+dl, dd { margin: 0; }
+dt {
+  padding: 0 0 5px 0;
+  font-weight: bold; }
+dd { padding: 0 0 20px 0; }
+input[type="text"], textarea {
+  width: 230px;
+  height: 24px;
+  padding: 2px 5px;
+  font: normal 14px Arial, Helvetica, sans-serif;
+  color: #333333;
+  border: 1px solid #cccccc; }
+textarea {
+  max-width: 230px;
+  height: 85px;
+  max-height: 170px; }
+ul {
+  padding: 0 0 0 10px;
+  margin: 0;
+  list-style: none; }
+p.remember_state {
+  padding: 7px 15px;
+  margin: 0 0 20px 0;
+  font-size: 14px;
+  color: #00aa00;
+  border: 2px solid #00aa00;
+  background: #99ff99; }
+  p.remember_state a {
+    font-weight: bold;
+    color: #0066cc; }
