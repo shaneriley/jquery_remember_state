@@ -9,7 +9,7 @@
   <script src="jquery.remember-state.js"></script>
   <script>
     $(function() {
-      $("form").rememberState("personal_info").submit(function() {
+      $("form").rememberState({ objName: "personal_info" }).submit(function() {
         localStorage.setObject("personal_info", $(this).serializeArray());
         return false;
       });
