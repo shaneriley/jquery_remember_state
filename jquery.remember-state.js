@@ -33,11 +33,11 @@
             $e;
         for (var i in data) {
           $e = $f.find("[name=" + data[i].name + "]");
-          if ($e.is(":radio")) {
+          if ($e.is(":radio,:checkbox")) {
             $e.filter("[value=" + data[i].value + "]").attr("checked", true);
-          }
-          else if ($e.is(":checkbox")) { $e.attr("checked", true); }
-          else { $e.val(data[i].value); }
+          } else if ($e.is("select")) {
+            $e.children("[value=" + data[i].value + "]").attr("selected", true);
+          } else { $e.val(data[i].value); }
         }
         opts.noticeDialog.remove();
         return false;
