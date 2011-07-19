@@ -25,6 +25,10 @@ textarea {
   max-width: 230px;
   height: 85px;
   max-height: 170px; }
+select[multiple] {
+  width: 240px;
+  color: #333333;
+  border: 1px solid #cccccc; }
 ul {
   padding: 0 0 0 10px;
   margin: 0;

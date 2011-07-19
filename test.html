@@ -2,10 +2,10 @@
 <html>
 <head>
   <title>QUnit Test Suite</title>
-  <link rel="stylesheet" href="qunit/qunit/qunit.css" type="text/css" media="screen">
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <script src="jquery.remember-state.js" type="text/javascript"></script>
-  <script type="text/javascript" src="qunit/qunit/qunit.js"></script>
+  <script type="text/javascript" src="qunit/qunit.js"></script>
   <script type="text/javascript" src="tests.js"></script>
 </head>
 <body>
@@ -17,62 +17,76 @@
   <div id="qunit-fixture">
     <form action="" method="post">
       <fieldset>
-        <dl>
-          <dt><label>First Name</label></dt>
-          <dd><input type="text" name="first_name" id="first_name" /></dd>
-          <dt><label>Last Name</label></dt>
-          <dd><input type="text" name="last_name" id="last_name" /></dd>
-          <dt><label>Gender</label></dt>
-          <dd>
-            <ul>
-              <li>
-                <label>
-                  <input type="radio" name="gender" id="gender_female" value="Female" />
-                  Female
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="gender" id="gender_male" value="Male" />
-                  Male
-                </label>
-              </li>
-            </ul>
-          </dd>
-          <dt><label>Marital Status</label></dt>
-          <dd>
-            <select name="marital_status" id="marital_status">
-              <option selected value="Single">Single</option>
-              <option value="Married">Married</option>
-              <option value="Divorced">Divorced</option>
-              <option value="Separated">Separated</option>
-            </select>
-          </dd>
-          <dt><label>Bio</label></dt>
-          <dd><textarea name="bio" id="bio" rows="8" cols="40"></textarea></dd>
-          <dt><label>Interests</label></dt>
-          <dd>
-            <ul>
-              <li>
-                <label>
-                  <input type="checkbox" name="video_games" value="Video games" />
-                  Video games
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" name="beach_walks" value="Long walks on the beach" />
-                  Long walks on the beach
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" name="dendrophilia" value="Dendrophilia" />
-                  Dendrophilia
-                </label>
-              </li>
-            </ul>
-        </dl>
+      <dl>
+        <dt><label for="first_name">First Name</label></dt>
+        <dd><input type="text" name="first_name" id="first_name" /></dd>
+        <dt><label for="last_name">Last Name</label></dt>
+        <dd><input type="text" name="last_name" id="last_name" /></dd>
+        <dt><label for="gender_female">Gender</label></dt>
+        <dd>
+          <ul>
+            <li>
+              <label>
+                <input type="radio" name="gender" id="gender_female" value="Female" />
+                Female
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="radio" name="gender" id="gender_male" value="Male" />
+                Male
+              </label>
+            </li>
+          </ul>
+        </dd>
+        <dt><label for="marital_status">Marital Status</label></dt>
+        <dd>
+          <select name="marital_status" id="marital_status">
+            <option selected value="Single">Single</option>
+            <option value="Married">Married</option>
+            <option value="Divorced">Divorced</option>
+            <option value="Separated">Separated</option>
+          </select>
+        </dd>
+        <dt><label for="bio">Bio</label></dt>
+        <dd><textarea name="bio" id="bio" rows="8" cols="40"></textarea></dd>
+        <dt><label for="interests_video_games">Interests</label></dt>
+        <dd>
+          <ul>
+            <li>
+              <label>
+                <input type="checkbox" id="interests_video_games" name="video_games" value="Video games" />
+                Video games
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" id="interests_beach_walks" name="beach_walks" value="Long walks on the beach" />
+                Long walks on the beach
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" id="interests_dendrophilia" name="dendrophilia" value="Dendrophilia" />
+                Dendrophilia
+              </label>
+            </li>
+          </ul>
+        </dd>
+        <dt><label for="relationship_type">Looking for</label></dt>
+        <dd>
+          <select id="relationship_type" name="relationship_type" multiple>
+            <optgroup label="Man">
+              <option value="m_w">seeking women</option>
+              <option value="m_m">seeking men</option>
+            </optgroup>
+            <optgroup label="Woman">
+              <option value="w_m">seeking men</option>
+              <option value="w_w">seeking women</option>
+            </optgroup>
+          </select>
+        </dd>
+      </dl>
       </fieldset>
       <fieldset class="actions">
         <input type="submit" value="Save" />

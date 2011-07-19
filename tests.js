@@ -1,3 +1,5 @@
+if (!("prop" in $.fn)) { $.fn.prop = $.fn.attr; }
+
 var o = {
   objName: "remember_state_test_data"
 };
@@ -35,27 +37,37 @@ test("Value in text field should save state", function() {
 
 test("Value in radio should save state", function() {
   var $form = setup();
-  $form.find("#gender_male").attr("checked", true);
+  $form.find("#gender_male").prop("checked", true);
   triggerUnload();
   ok(/Male/.test(localStorage[o.objName]), "Gender saved");
-  $form.find("#gender_female").attr("checked", true);
+  $form.find("#gender_female").prop("checked", true);
   ok(!(/Female/.test(localStorage[o.objName])), "Gender not saved");
 });
 
 test("Value in select box should save state", function() {
   var $form = setup();
-  $form.find("#marital_status option:contains(Married)").attr("selected", true);
+  $form.find("#marital_status option:contains(Married)").prop("selected", true);
   triggerUnload();
   ok(/Married/.test(localStorage[o.objName]), "Marital status saved");
-  $form.find("#marital_status option:contains(Single)").attr("selected", true);
+  $form.find("#marital_status option:contains(Single)").prop("selected", true);
   ok(!(/Single/.test(localStorage[0])), "Marital status not saved");
 });
 
-test ("Value in checkbox should save state", function() {
+test("Value in checkbox should save state", function() {
   var $form = setup();
-  $form.find("[name=video_games]").attr("checked", true);
+  $form.find("[name=video_games]").prop("checked", true);
   triggerUnload();
   ok(/Video/.test(localStorage[o.objName]), "Video games saved");
-  $form.find("[name=dendrophilia]").attr("checked", true);
+  $form.find("[name=dendrophilia]").prop("checked", true);
   ok(!(/Dendro/.test(localStorage[o.objName])), "Dendrophilia not saved");
+});
+
+test("Multiselects restore state", function() {
+  var $form = setup(),
+      $opts = $form.find("[multiple] option");
+  $opts.eq(0).prop("selected", true);
+  $opts.eq($opts.length - 1).prop("selected", true);
+  triggerUnload();
+  ok(/m_w/.test(localStorage[o.objName]), "Multiple selected options saved");
+  ok(!(/m_m/.test(localStorage[o.objName])), "Not selected option not saved");
 });

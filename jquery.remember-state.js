@@ -26,6 +26,7 @@
           noticeSelector: ".remember_state",
           objName: false }, defaults);
     var use_ids = !(!!opts.objName);
+    if (!("prop" in $.fn)) { $.fn.prop = $.fn.attr; }
     if (opts.noticeDialog.length && typeof opts.noticeDialog === "object") {
       opts.noticeDialog.find("a").bind("click.remember_state", function() {
         var data = localStorage.getObject(opts.objName),
@@ -33,10 +34,12 @@
             $e;
         for (var i in data) {
           $e = $f.find("[name=" + data[i].name + "]");
-          if ($e.is(":radio")) {
-            $e.filter("[value=" + data[i].value + "]").attr("checked", true);
+          if ($e.is(":radio. :checkbox")) {
+            $e.filter("[value=" + data[i].value + "]").prop("checked", true);
           }
-          else if ($e.is(":checkbox")) { $e.attr("checked", true); }
+          else if ($e.is("select")) {
+            $e.find("[value=" + data[i].value + "]").prop("selected", true);
+          }
           else { $e.val(data[i].value); }
         }
         opts.noticeDialog.remove();
