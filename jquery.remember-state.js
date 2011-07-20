@@ -34,7 +34,7 @@
             $e;
         for (var i in data) {
           $e = $f.find("[name=" + data[i].name + "]");
-          if ($e.is(":radio. :checkbox")) {
+          if ($e.is(":radio, :checkbox")) {
             $e.filter("[value=" + data[i].value + "]").prop("checked", true);
           }
           else if ($e.is("select")) {
