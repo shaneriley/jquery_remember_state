@@ -28,7 +28,7 @@
     var use_ids = !(!!opts.objName);
     if (!("prop" in $.fn)) { $.fn.prop = $.fn.attr; }
     if (opts.noticeDialog.length && typeof opts.noticeDialog === "object") {
-      opts.noticeDialog.find("a").bind("click.remember_state", function() {
+      opts.noticeDialog.find("a").bind("click.remember_state", function(e) {
         var data = localStorage.getObject(opts.objName),
             $f = $(this).closest("form"),
             $e;
@@ -43,7 +43,7 @@
           else { $e.val(data[i].value); }
         }
         opts.noticeDialog.remove();
-        return false;
+        e.preventDefault();
       });
     }
     if (this.length > 1) {
@@ -81,7 +81,16 @@
         });
       }
       $(window).bind("unload.remember_state", function() {
-        var personal_info = localStorage.setObject(opts.objName, $("form").serializeArray());
+        var values = $form.serializeArray();
+        // jQuery doesn't currently support datetime-local inputs despite a
+        // comment by dmethvin stating the contrary:
+        // http://bugs.jquery.com/ticket/5667
+        // Manually storing input type until jQuery is patched
+        $form.find("input[type='datetime-local']").each(function() {
+          var $i = $(this);
+          values.push({ name: $i.attr("name"), value: $i.val() });
+        });
+        localStorage.setObject(opts.objName, values);
       });
       $form.find(":reset").bind("click.remember_state", function() {
         $(this).closest("form").trigger("reset_state");

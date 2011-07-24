@@ -14,7 +14,20 @@ dt {
   padding: 0 0 5px 0;
   font-weight: bold; }
 dd { padding: 0 0 20px 0; }
-input[type="text"], textarea {
+input[type="text"],
+input[type="password"],
+input[type="tel"],
+input[type="number"],
+input[type="email"],
+input[type="week"],
+input[type="time"],
+input[type="month"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="search"],
+input[type="color"],
+textarea {
   width: 230px;
   height: 24px;
   padding: 2px 5px;

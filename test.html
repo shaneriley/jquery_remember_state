@@ -87,6 +87,36 @@
           </select>
         </dd>
       </dl>
+      <h1>New Input Types</h1>
+      <dl>
+        <dt><label for="email">input[type="email"]</label></dt>
+        <dd><input type="email" name="email" id="email" /></dd>
+        <dt><label for="search">input[type="search"]</label></dt>
+        <dd><input type="search" name="search" id="search" /></dd>
+        <dt><label for="tel">input[type="tel"]</label></dt>
+        <dd><input type="tel" name="tel" id="tel" /></dd>
+        <dt><label for="color">input[type="color"]</label></dt>
+        <dd><input type="color" name="color" id="color" /></dd>
+        <dt><label for="number">input[type="number"]</label></dt>
+        <dd><input type="number" name="number" id="number" min="0" /></dd>
+        <dt><label for="week">input[type="week"]</label></dt>
+        <dd><input type="week" name="week" id="week" min="1901-W01" /></dd>
+        <dt><label for="time">input[type="time"]</label></dt>
+        <dd><input type="time" name="time" id="time" min="06:00:00.00" /></dd>
+        <dt><label for="month">input[type="month"]</label></dt>
+        <dd><input type="month" name="month" id="month" min="1901-01" /></dd>
+        <dt><label for="date">input[type="date"]</label></dt>
+        <dd><input type="date" name="date" id="date" min="1901-01-01" /></dd>
+        <dt><label for="datetime">input[type="datetime"]</label></dt>
+        <dd><input type="datetime" name="datetime" id="datetime" min="1901-01-01T06:00:00" /></dd>
+        <dt><label for="datetime-local">input[type="datetime-local"]</label></dt>
+        <dd><input type="datetime-local" name="datetime-local" id="datetime-local" min="1901-01-01T06:00:00-06:00" /></dd>
+        <dt><label for="age_range">input[type="range"]</label></dt>
+        <dd>
+          <input type="range" name="age_range" id="age_range" min="18" max="100" step="1" value="18" />
+          <span></span>
+        </dd>
+      </dl>
       </fieldset>
       <fieldset class="actions">
         <input type="submit" value="Save" />

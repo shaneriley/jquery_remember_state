@@ -71,3 +71,17 @@ test("Multiselects restore state", function() {
   ok(/m_w/.test(localStorage[o.objName]), "Multiple selected options saved");
   ok(!(/m_m/.test(localStorage[o.objName])), "Not selected option not saved");
 });
+
+test("Value in datetime should save state", function() {
+  var $form = setup();
+  $form.find("#datetime").val("1901-01-01T06:00:00");
+  triggerUnload();
+  ok(/1901-01-01T06:00:00/.test(localStorage[o.objName]), "Datetime saved");
+});
+
+test("Value in datetime-local should save state", function() {
+  var $form = setup();
+  $form.find("#datetime-local").val("1901-01-01T06:00:00-06:00");
+  triggerUnload();
+  ok(/1901-01-01T06:00:00-06:00/.test(localStorage[o.objName]), "Datetime-local saved");
+});
