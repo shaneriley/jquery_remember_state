@@ -15,21 +15,27 @@
      outside the plugin, trigger the reset_state event on the form element
      by using $("form").trigger("reset_state");
   */
+  if (!window.localStorage || !window.JSON) {
+    if (console && console.log) {
+      !window.localStorage && console.log("ERROR: you browser does not support" +
+        " localStorage (use this polyfill https://gist.github.com/350433)");
+      !window.JSON&& console.log("ERROR: you browser does not support" +
+        " JSON (use this polyfill http://bestiejs.github.com/json3/)");
+    }
+    return $.fn.rememberState = function() { return this; };
+  }
   $.fn.rememberState = function(defaults) {
     var opts = $.extend({
           clearOnSubmit: true,
-          noticeDialog: (function() {
-            var $e = $("<p />", {"class": "remember_state"})
-                     .html('Do you want to <a href="#">restore your previously entered info</a>?');
-            return $e;
-          })(),
+          noticeDialog: $("<p />", {"class": "remember_state"})
+            .html('Do you want to <a href="#">restore your previously entered info</a>?'),
           noticeSelector: ".remember_state",
           objName: false }, defaults);
     var use_ids = !(!!opts.objName);
     if (!("prop" in $.fn)) { $.fn.prop = $.fn.attr; }
-    if (opts.noticeDialog.length && typeof opts.noticeDialog === "object") {
+    if (opts.noticeDialog.length && opts.noticeDialog.jquery) {
       opts.noticeDialog.find("a").bind("click.remember_state", function(e) {
-        var data = localStorage.getObject(opts.objName),
+        var data = JSON.parse(localStorage.getItem(opts.objName)),
             $f = $(this).closest("form"),
             $e;
         for (var i in data) {
@@ -40,14 +46,17 @@
           else if ($e.is("select")) {
             $e.find("[value=" + data[i].value + "]").prop("selected", true);
           }
-          else { $e.val(data[i].value); }
+          else {
+            $e.val(data[i].value);
+          }
+          $e.change();
         }
         opts.noticeDialog.remove();
         e.preventDefault();
       });
     }
     if (this.length > 1) {
-      if (console.log) {
+      if (console && console.log) {
         console.log("WARNING: Cannot process more than one form with the same" +
           " object. Attempting to use form IDs instead.");
       }
@@ -60,24 +69,25 @@
           opts.objName = $form.attr("id");
         }
         else {
-          if (console.log) {
+          if (console && console.log) {
             console.log("ERROR: No form ID or object name. Add an ID or pass" +
               " in an object name");
             return this;
           }
         }
       }
-      if (localStorage[opts.objName]) {
+      if (getObject(opts.objName)) {
         (opts.noticeDialog.length && typeof opts.noticeDialog === "object") ?
           opts.noticeDialog.prependTo($form) :
           $form.find(opts.noticeSelector).show();
       }
-      $form.bind("reset_state", function() {
-        delete localStorage[opts.objName];
+      $form.bind("reset_state.remember_state", function() {
+  	    localStorage.removeItem(opts.objName);
       });
       if (opts.clearOnSubmit) {
         $form.bind("submit.remember_state", function() {
-          $(this).trigger("reset_state");
+          $form.trigger("reset_state");
+          $(window).unbind("unload.remember_state");
         });
       }
       $(window).bind("unload.remember_state", function() {
@@ -90,7 +100,8 @@
           var $i = $(this);
           values.push({ name: $i.attr("name"), value: $i.val() });
         });
-        localStorage.setObject(opts.objName, values);
+        if ( values.length )
+          localStorage.setItem(opts.objName, JSON.stringify(values));
       });
       $form.find(":reset").bind("click.remember_state", function() {
         $(this).closest("form").trigger("reset_state");
@@ -98,5 +109,3 @@
     });
   };
 })(jQuery);
-Storage.prototype.setObject = function(key, value) { this[key] = JSON.stringify(value); };
-Storage.prototype.getObject = function(key) { return JSON.parse(this[key]); };
