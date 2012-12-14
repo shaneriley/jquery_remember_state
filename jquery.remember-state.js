@@ -76,13 +76,13 @@
           }
         }
       }
-      if (getObject(opts.objName)) {
+      if (localStorage.getItem(opts.objName)) {
         (opts.noticeDialog.length && typeof opts.noticeDialog === "object") ?
           opts.noticeDialog.prependTo($form) :
           $form.find(opts.noticeSelector).show();
       }
       $form.bind("reset_state.remember_state", function() {
-  	    localStorage.removeItem(opts.objName);
+        localStorage.removeItem(opts.objName);
       });
       if (opts.clearOnSubmit) {
         $form.bind("submit.remember_state", function() {
