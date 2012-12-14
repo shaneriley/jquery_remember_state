@@ -30,9 +30,9 @@ test("Value in text field should save state", function() {
   var $form = setup();
   $form.find("#first_name").val("Shane");
   triggerUnload();
-  ok(/Shane/.test(localStorage.getObject(o.objName)[0].value), "First name saved");
+  ok(/Shane/.test(JSON.parse(localStorage.getItem(o.objName))[0].value), "First name saved");
   $form.find("#last_name").val("Riley");
-  ok(!(/Riley/.test(localStorage.getObject(o.objName)[0].value)), "Last name not saved");
+  ok(!(/Riley/.test(JSON.parse(localStorage.getItem(o.objName))[0].value)), "Last name not saved");
 });
 
 test("Value in radio should save state", function() {
