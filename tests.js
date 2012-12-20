@@ -3,8 +3,9 @@ if (!("prop" in $.fn)) { $.fn.prop = $.fn.attr; }
 var o = {
   objName: "remember_state_test_data"
 };
-var setup = function() {
-  return $("#qunit-fixture").find("form").rememberState(o);
+var setup = function(opts) {
+  opts = opts || {};
+  return $("#qunit-fixture").find("form").rememberState($.extend(true, {}, o, opts));
 };
 var triggerUnload = function() {
   $(window).trigger("unload");
@@ -84,4 +85,11 @@ test("Value in datetime-local should save state", function() {
   $form.find("#datetime-local").val("1901-01-01T06:00:00-06:00");
   triggerUnload();
   ok(/1901-01-01T06:00:00-06:00/.test(localStorage[o.objName]), "Datetime-local saved");
+});
+
+test("Gender field should be ignored", function() {
+  var $form = setup({ ignore: ["gender"] });
+  $form.find("#gender_female").attr("checked", true);
+  triggerUnload();
+  ok(!/Female/.test(localStorage[o.objName]), "Gender not saved");
 });

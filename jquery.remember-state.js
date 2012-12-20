@@ -32,6 +32,7 @@
       return $("<p />", {"class": "remember_state"})
         .html('Do you want to <a href="#">restore your previously entered info</a>?');
     })(),
+    ignore: null,
     noticeSelector: ".remember_state",
     use_ids: false,
     objName: false,
@@ -70,7 +71,7 @@
           " in an object name");
       }
     },
-    restoreState: function(e) {
+    saveState: function(e) {
       var instance = e.data.instance;
       var values = instance.$el.serializeArray();
       // jQuery doesn't currently support datetime-local inputs despite a
@@ -81,7 +82,17 @@
         var $i = $(this);
         values.push({ name: $i.attr("name"), value: $i.val() });
       });
+      values = instance.removeIgnored(values);
       values.length && internals.setObject(instance.objName, values);
+    },
+    removeIgnored: function(values) {
+      if (!this.ignore) { return values; }
+      $.each(this.ignore, function(i, name) {
+        $.each(values, function(j, input) {
+          if (name === input.name) { delete values[j]; }
+        });
+      });
+      return values;
     },
     init: function() {
       var instance = this;
@@ -115,7 +126,7 @@
       instance.$el.bind("reset_state." + instance.name, function() {
         localStorage.removeItem(instance.objName);
       });
-      $(window).bind("unload." + instance.name, { instance: instance }, instance.restoreState);
+      $(window).bind("unload." + instance.name, { instance: instance }, instance.saveState);
       instance.$el.find(":reset").bind("click.remember_state", function() {
         $(this).closest("form").trigger("reset_state");
       });
