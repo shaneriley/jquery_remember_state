@@ -1,7 +1,7 @@
 {
   "name": "rememberState",
   "title": "rememberState",
-  "description": "Jquery plugin run segregator",
+  "description": "Remember and restore form state using localStorage",
   "keywords": ["form", "localStorage"],
   "version": "1.3",
   "author": {
