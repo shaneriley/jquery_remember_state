@@ -11,7 +11,7 @@
       $("form").rememberState({ objName: "personal_info" }).submit(function() {
         localStorage.setObject("personal_info", $(this).serializeArray());
         return false;
-      }).delegate("p.remember_state a", "click", function() {
+      }).on("click", "p.remember_state a", function() {
         $("input[type=range]").change();
       });
 

@@ -93,3 +93,11 @@ test("Gender field should be ignored", function() {
   triggerUnload();
   ok(!/Female/.test(localStorage[o.objName]), "Gender not saved");
 });
+
+test("Plugin should not remember state after destroy method called", function() {
+  var $form = setup();
+  $form.find("#first_name").val("Shane");
+  $form.rememberState("destroy", true);
+  triggerUnload();
+  ok(!localStorage[o.objName], "Form not saved");
+});

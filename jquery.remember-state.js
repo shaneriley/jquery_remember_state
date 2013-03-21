@@ -101,42 +101,58 @@
       });
       return values;
     },
-    init: function() {
-      var instance = this;
-      if (instance.noticeDialog.length && instance.noticeDialog.jquery) {
-        instance.noticeDialog.find("a").bind("click." + instance.name, {
-          instance: instance
-        }, instance.clickNotice);
-      }
-
-      instance.chooseStorageProp();
-      if (!instance.objName) {
-        instance.errorNoID();
+    bindNoticeDialog: function() {
+      if (!this.noticeDialog.length || !this.noticeDialog.jquery) {
         return;
       }
-
-      if (localStorage[instance.objName]) {
-        if (instance.noticeDialog.length && typeof instance.noticeDialog === "object") {
-          instance.noticeDialog.prependTo(instance.$el);
-        }
-        else {
-          instance.$el.find(instance.noticeSelector).show();
-        }
-      }
-      if (instance.clearOnSubmit) {
-        instance.$el.bind("submit." + instance.name, function() {
-          instance.$el.trigger("reset_state");
-          $(window).unbind("unload." + instance.name);
+      this.noticeDialog.find("a").bind("click." + this.name, {
+        instance: this
+      }, this.clickNotice);
+    },
+    setName: function() {
+      this.objName = this.objName || this.$el.attr("id");
+      if (!this.objName) { this.errorNoID(); }
+    },
+    bindResetEvents: function() {
+      if (this.clearOnSubmit) {
+        this.$el.bind("submit." + this.name, function() {
+          this.$el.trigger("reset_state");
+          $(window).unbind("unload." + this.name);
         });
       }
 
-      instance.$el.bind("reset_state." + instance.name, function() {
-        localStorage.removeItem(instance.objName);
+      this.$el.bind("reset_state." + this.name, function() {
+        localStorage.removeItem(this.objName);
       });
-      $(window).bind("unload." + instance.name, { instance: instance }, instance.saveState);
-      instance.$el.find(":reset").bind("click.remember_state", function() {
+      this.$el.find(":reset").bind("click." + this.name, function() {
         $(this).closest("form").trigger("reset_state");
       });
+    },
+    destroy: function(destroy_local_storage) {
+      var namespace = "." + this.name;
+      this.$el.unbind(namespace).find(":reset").unbind(namespace);
+      $(window).unbind(namespace);
+      destroy_local_storage && localStorage.removeItem(this.objName);
+    },
+    init: function() {
+      var instance = this;
+
+      this.bindNoticeDialog();
+      this.setName();
+      this.bindResetEvents();
+
+      if (!this.objName) { return; }
+
+      if (localStorage[this.objName]) {
+        if (this.noticeDialog.length && this.noticeDialog.jquery) {
+          this.noticeDialog.prependTo(this.$el);
+        }
+        else {
+          this.$el.find(this.noticeSelector).show();
+        }
+      }
+
+      $(window).bind("unload." + instance.name, { instance: instance }, instance.saveState);
     }
   };
 
@@ -146,9 +162,12 @@
     createPlugin: function(plugin) {
       $.fn[plugin.name] = function(opts) {
         var $els = this,
-            method = $.isPlainObject(opts) || !opts ? "" : opts;
+            method = $.isPlainObject(opts) || !opts ? "" : opts,
+            args = arguments;
         if (method && plugin[method]) {
-          plugin[method].apply($els, Array.prototype.slice.call(arguments, 1));
+          $els.each(function(i) {
+            plugin[method].apply($els.eq(i).data(plugin.name), Array.prototype.slice.call(args, 1));
+          });
         }
         else if (!method) {
           $els.each(function(i) {
