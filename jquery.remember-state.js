@@ -128,21 +128,7 @@
         $(this).closest("form").trigger("reset_state");
       });
     },
-    destroy: function(destroy_local_storage) {
-      var namespace = "." + this.name;
-      this.$el.unbind(namespace).find(":reset").unbind(namespace);
-      $(window).unbind(namespace);
-      destroy_local_storage && localStorage.removeItem(this.objName);
-    },
-    init: function() {
-      var instance = this;
-
-      this.bindNoticeDialog();
-      this.setName();
-      this.bindResetEvents();
-
-      if (!this.objName) { return; }
-
+    createNoticeDialog: function() {
       if (localStorage[this.objName]) {
         if (this.noticeDialog.length && this.noticeDialog.jquery) {
           this.noticeDialog.prependTo(this.$el);
@@ -151,8 +137,23 @@
           this.$el.find(this.noticeSelector).show();
         }
       }
+    },
+    destroy: function(destroy_local_storage) {
+      var namespace = "." + this.name;
+      this.$el.unbind(namespace).find(":reset").unbind(namespace);
+      $(window).unbind(namespace);
+      destroy_local_storage && localStorage.removeItem(this.objName);
+    },
+    init: function() {
+      this.bindNoticeDialog();
+      this.setName();
 
-      $(window).bind("unload." + instance.name, { instance: instance }, instance.saveState);
+      if (!this.objName) { return; }
+
+      this.bindResetEvents();
+      this.createNoticeDialog();
+
+      $(window).bind("unload." + this.name, { instance: this }, this.saveState);
     }
   };
 
