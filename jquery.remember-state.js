@@ -1,7 +1,7 @@
 (function($) {
   /* jQuery form remember state plugin
      Name: rememberState
-     Version: 1.3
+     Version: 1.3.1
      Description: When called on a form element, localStorage is used to
      remember the values that have been input up to the point of either
      saving or unloading. (closing window, navigating away, etc.) If
@@ -93,12 +93,14 @@
       instance.saveState({ data: { instance: instance } });
     },
     removeIgnored: function(values) {
-      if (!this.ignore) { return values; }
-      $.each(this.ignore, function(i, name) {
-        $.each(values, function(j, input) {
-          if (name === input.name) { delete values[j]; }
-        });
+      var ignore = this.ignore;
+      if (!ignore) { return values; }
+      $.each(values, function(i, input) {
+        if ($.inArray(input.name, ignore) !== -1) {
+          values[i] = false;
+        }
       });
+      values = $.grep(values, function(val) { return val; });
       return values;
     },
     bindNoticeDialog: function() {

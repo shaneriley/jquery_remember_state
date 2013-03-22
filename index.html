@@ -4,14 +4,14 @@
   <title>LocalStorage and Unload State Save</title>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="stylesheets/form.css" />
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script src="jquery.remember-state.js"></script>
   <script>
     $(function() {
-      $("form").rememberState({ objName: "personal_info" }).submit(function() {
-        localStorage.setObject("personal_info", $(this).serializeArray());
-        return false;
-      }).on("click", "p.remember_state a", function() {
+      $("form").rememberState({
+        objName: "personal_info",
+        ignore: ["bio"]
+      }).submit(false).on("click", "p.remember_state a", function() {
         $("input[type=range]").change();
       });
 
