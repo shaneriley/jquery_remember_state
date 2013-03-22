@@ -1,7 +1,7 @@
 (function($) {
   /* jQuery form remember state plugin
      Name: rememberState
-     Version: 1.3.1
+     Version: 1.3.2
      Description: When called on a form element, localStorage is used to
      remember the values that have been input up to the point of either
      saving or unloading. (closing window, navigating away, etc.) If
