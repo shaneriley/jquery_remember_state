@@ -1,6 +1,6 @@
 # jQuery form remember state plugin
 
-## Version: 1.3
+## Version: 1.3.1
 
 When called on a form element, localStorage is used to remember the values that have been input up to the point of either saving or unloading. (closing window, navigating away, etc.) If localStorage isn't available, nothing is bound or stored.
 
@@ -24,6 +24,12 @@ If you'd like to save the form's state manually, call the rememberState method o
 
 ```javascript
 $("form").rememberState("save");
+```
+
+There is also a teardown method for removing the bound events for a particular form. Passing a second argument of true will also destroy the localStorage object for that form.
+
+```javascript
+$("form").rememberState("destroy", true);
 ```
 
 
