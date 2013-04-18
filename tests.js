@@ -10,6 +10,12 @@ var setup = function(opts) {
 var triggerUnload = function() {
   $(window).trigger("unload");
 };
+var triggerReload = function() {
+  var $f = $("form");
+  $f[0].reset();
+  $f.data("rememberState").createNoticeDialog();
+  $f.data("rememberState").noticeDialog.find("a").click();
+};
 
 test("Requirements", 3, function() {
   ok($, "$");
@@ -56,11 +62,22 @@ test("Value in select box should save state", function() {
 
 test("Value in checkbox should save state", function() {
   var $form = setup();
-  $form.find("[name=video_games]").prop("checked", true);
+  var check = function(name, checked) {
+    checked = checked === undefined ? true : checked;
+    $form.find("[name=" + name + "]").prop("checked", checked);
+  };
+
+  check("video_games");
   triggerUnload();
   ok(/Video/.test(localStorage[o.objName]), "Video games saved");
-  $form.find("[name=dendrophilia]").prop("checked", true);
+  check("dendrophilia");
   ok(!(/Dendro/.test(localStorage[o.objName])), "Dendrophilia not saved");
+  check("checkbox_empty_value");
+  triggerUnload();
+  ok(/"on"/.test(localStorage[o.objName]), "Empty value saved");
+  triggerReload();
+  ok($("[name=video_games]").prop("checked"), "Video games restored");
+  ok($("[name=checkbox_empty_value]").prop("checked"), "Empty value restored");
 });
 
 test("Multiselects restore state", function() {
