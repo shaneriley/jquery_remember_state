@@ -12,9 +12,12 @@ var triggerUnload = function() {
 };
 var triggerReload = function() {
   var $f = $("form");
-  $f[0].reset();
-  $f.data("rememberState").createNoticeDialog();
-  $f.data("rememberState").noticeDialog.find("a").click();
+  $f.each(function() {
+    var instance = $(this).data("rememberState");
+    this.reset();
+    instance.createNoticeDialog();
+    instance.noticeDialog.find("a").click();
+  });
 };
 
 test("Requirements", 3, function() {
@@ -117,4 +120,29 @@ test("Plugin should not remember state after destroy method called", function() 
   $form.rememberState("destroy", true);
   triggerUnload();
   ok(!localStorage[o.objName], "Form not saved");
+});
+
+test("Multiple forms save and restore data", function() {
+  var $f1 = setup(),
+      $f2 = $("<form />", { id: "test" }).appendTo("#qunit-fixture");
+
+  $("<input />", {
+    type: "text",
+    name: "test_text",
+    id: "test_text"
+  }).appendTo($f2);
+
+  $f2.rememberState();
+
+  $f1.find("#first_name").val("Shane");
+  $f2.find("#test_text").val("Riley");
+  triggerUnload();
+
+  ok(/Shane/.test(localStorage[o.objName]), "Form 1 saved");
+  ok(/Riley/.test(localStorage.test), "Form 2 saved");
+  ok(!/Shane/.test(localStorage.test), "Form 1 data not saved in form 2 data");
+  ok(!/Riley/.test(localStorage[o.objName]), "Form 2 data not saved in form 1 data");
+  triggerReload();
+  ok(/Shane/.test($f1.find("#first_name").val()), "Form 1 restored");
+  ok(/Riley/.test($f2.find("#test_text").val()), "Form 2 restored");
 });

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <title>LocalStorage and Unload State Save</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="stylesheets/form.css" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script src="jquery.remember-state.js"></script>
+  <script>
+    $(function() {
+      $("form").rememberState();
+    });
+  </script>
+</head>
+<body>
+  <main>
+    <form id="item_new" class="half" action="" method="post">
+      <fieldset>
+        <dl>
+          <dt><label for="item_name">Item name</label></dt>
+          <dd><input type="text" name="item_name" id="item_name" /></dd>
+          <dt><label for="quantity">Quantity</label></dt>
+          <dd><input type="number" name="quantity" id="quantity" /></dd>
+        </dl>
+      </fieldset>
+      <fieldset class="actions">
+        <input type="submit" value="Save Item" />
+        <input type="reset" value="Delete" />
+      </fieldset>
+    </form>
+
+    <form id="category_new" class="half" action="" method="post">
+      <fieldset>
+        <dl>
+          <dt><label for="category_name">Category Name</label></dt>
+          <dd><input type="text" name="category_name" id="category_name" /></dd>
+          <dt><label for="access_control">Grant admin rights to</label></dt>
+          <dd>
+            <select multiple name="access_control" id="access_control">
+              <option value="shane">Shane</option>
+              <option value="amber">Amber</option>
+              <option value="jack">Jack</option>
+              <option value="max">Max</option>
+              <option value="gavin">Gavin</option>
+            </select>
+          </dd>
+        </dl>
+      </fieldset>
+      <fieldset class="actions">
+        <input type="submit" value="Save Category" />
+        <input type="reset" value="Delete" />
+      </fieldset>
+    </form>
+  </main>
+</body>
+</html>

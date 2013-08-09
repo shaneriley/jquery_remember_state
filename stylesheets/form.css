@@ -1,9 +1,19 @@
+main {
+  display: block;
+  width: 840px;
+  margin: 0 auto; }
 form {
   width: 500px;
   padding: 25px 0;
   margin: 0 auto;
   font: normal 13px Arial, Helvetica, sans-serif;
   color: #333333; }
+form.half {
+  display: inline-block;
+  width: 400px;
+  margin: 0;
+  vertical-align: top; }
+  form.half + form.half { margin-left: 30px; }
 fieldset {
   width: 245px;
   padding: 0;
