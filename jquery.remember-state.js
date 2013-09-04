@@ -169,7 +169,7 @@
     createPlugin: function(plugin) {
       $.fn[plugin.name] = function(opts) {
         var $els = this,
-            method = $.isPlainObject(opts) || $.isEmptyObject(opts) ? "" : opts,
+            method = $.isEmptyObject(opts) ? "" : opts,
             args = arguments;
         if (method && plugin[method]) {
           $els.each(function(i) {
