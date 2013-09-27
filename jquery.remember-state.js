@@ -108,7 +108,7 @@
       return values;
     },
     bindNoticeDialog: function() {
-      if (!this.noticeDialog || this.noticeDialog.length || !this.noticeDialog.jquery) {
+      if (!this.noticeDialog || !this.noticeDialog.length || !this.noticeDialog.jquery) {
         this.noticeDialog = this._defaultNoticeDialog();
       }
       this.noticeDialog.find("a").bind("click." + this.name, {
