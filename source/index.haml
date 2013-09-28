@@ -1,0 +1,141 @@
+- content_for :head do
+  :javascript
+    $(function() {
+      $("form").rememberState({
+        objName: "personal_info",
+        ignore: ["bio"],
+        noticeDialog: $("form div"),
+        noticeConfirmSelector: "a:first",
+        noticeCancelSelector: "a:last"
+      }).submit(false);
+    });
+
+%main
+  %section
+    %header
+      %h1 jQuery rememberState
+      %h2 Remember and restore form state using localStorage
+      %p
+        by
+        = link_to "Shane Riley", "http://shaneriley.com", rel: "author"
+
+    %aside
+      %p Version: 1.4.0
+      %h2 Source
+      %ul
+        %li= link_to "jquery.remember-state.js", "https://raw.github.com/shaneriley/jquery_remember_state/master/source/javascripts/jquery.remember-state.js"
+        %li= link_to "jquery.remember-state.pack.js", "https://raw.github.com/shaneriley/jquery_remember_state/master/source/javascripts/jquery.remember-state.pack.js"
+      = link_to "View the source on GitHub", "http://github.com/shaneriley/jquery_remember_state"
+
+    %article
+      %p When called on a form element, localStorage is used to remember the values that have been input up to the point of either saving or unloading. (closing window, navigating away, etc.) If localStorage isn't available, nothing is bound or stored.
+      %p By default, the plugin looks for an element with a class of remember_state within the form to show a note indicating there is stored data that can be repopulated by clicking on the anchor within the remember_state container. If the element doesn't exist, it is created and prepended to the form. You can override the selector and the HTML that is prepended in the options object you pass to the plugin.
+
+      %h3 Options
+      %code
+        %mark // Removes localStorage object when form submitted.
+        clearOnSubmit: true
+        %mark // A newly created HTML element to represent the notice box prepended to the form. Must include an anchor for the user to choose to restore state
+        &= "noticeDialog: $(\"<div />\").html(\"<a href=\"#\">Restore</a>\")"
+        %mark // If your noticeDialog already exists in the form, pass its selector here and clear out the noticeDialog option by setting it to false.
+        noticeSelector: ".remember_state"
+        %mark // Selector to use relative to the notice dialog to bind the confirm action to.
+        noticeConfirmSelector: "a"
+        %mark // Selector to use relative to the notice dialog to bind the cancel action to.
+        noticeCancelSelector: ""
+        %mark // Specify a name for the localStorage object. If none is supplied, the form's ID will be used. If no ID is available, the plugin will fail, issuing a log explaining why.
+        objName: "unique_form_name"
+        %mark // Supply an array of name attributes for form controls that you'd like to ignore.
+        ignore: null
+
+      %h3 Usage
+      %code $("form").rememberState("my_object_name");
+
+      %p If you'd like to save the form's state manually, call the rememberState method on the form after you've initialized it and pass it a string of save, like this:
+      %code $("form").rememberState("save");
+      %p There is also a teardown method for removing the bound events for a particular form. Passing a second argument of true will also destroy the localStorage object for that form.
+      %code $("form").rememberState("destroy", true);
+
+      %h3 Notes
+      %p To trigger the deletion of a form's localStorage object from outside the plugin, trigger the reset_state event on the form element by using $("form").trigger("reset_state");
+
+      %h3
+        Latest site design by
+        = link_to "Daniel Ariza", "http://danielariza.com"
+
+  %section
+    %form(action="" method="post")
+      %div
+        %p Would you like to restore your previously entered info?
+        = link_to "Yes", "#"
+        = link_to "No", "#"
+      %h1 Example
+      %p Fill in some of the fields and refresh the page to see rememberState in action
+      %fieldset
+        %dl
+          %dt
+            %label(for="first_name") First Name
+          %dd
+            %input#first_name(type="text" name="first_name")
+        %dl
+          %dt
+            %label(for="last_name") Last Name
+          %dd
+            %input#last_name(type="text" name="last_name")
+        %dl
+          %dt
+            %label(for="gender_female") Gender
+          %dd
+            %ul
+              %li
+                %label
+                  %input#gender_female(type="radio" name="gender" value="Female")
+                  Female
+              %li
+                %label
+                  %input#gender_male(type="radio" name="gender" value="Male")
+                  Male
+        %dl
+          %dt
+            %label(for="marital_status") Marital Status
+          %dd
+            %select#marital_status(name="marital_status")
+              %option(selected value="Single") Single
+              %option(value="Married") Married
+              %option(value="Divorced") Divorced
+              %option(value="Separated") Separated
+        %dl
+          %dt
+            %label(for="bio") Bio
+          %dd
+            %textarea#bio(name="bio" rows="8" cols="40")
+        %dl
+          %dt
+            %label(for="interests_video_games") Interests
+          %dd
+            %ul
+              %li
+                %label
+                  %input#interests_video_games(type="checkbox" name="video_games" value="Video games")
+                  Video games
+              %li
+                %label
+                  %input#interests_beach_walks(type="checkbox" name="beach_walks" value="Long walks on the beach")
+                  Long walks on the beach
+              %li
+                %label
+                  %input#interests_dendrophilia(type="checkbox" name="dendrophilia" value="Dendrophilia")
+                  Dendrophilia
+        %dl
+          %dt
+            %label(for="relationship_type") Looking for
+          %dd
+            %select#relationship_type(name="relationship_type" multiple)
+              %optgroup(label="Man")
+                %option(value="m_w") seeking women
+                %option(value="m_m") seeking men
+              %optgroup(label="Woman")
+                %option(value="w_m") seeking men
+                %option(value="w_w") seeking women
+        %input(type="submit" value="Save")
+        %input(type="reset" value="Delete")

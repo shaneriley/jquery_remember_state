@@ -1,7 +1,7 @@
 (function($) {
   /* jQuery form remember state plugin
      Name: rememberState
-     Version: 1.3.4
+     Version: 1.4.0
      Description: When called on a form element, localStorage is used to
      remember the values that have been input up to the point of either
      saving or unloading. (closing window, navigating away, etc.) If
@@ -33,6 +33,8 @@
         .html('Do you want to <a href="#">restore your previously entered info</a>?');
     },
     noticeDialog: null,
+    noticeConfirmSelector: "a",
+    noticeCancelSelector: "",
     ignore: null,
     noticeSelector: ".remember_state",
     use_ids: false,
@@ -59,6 +61,10 @@
       }
       e.data.instance.noticeDialog.remove();
       e.preventDefault();
+    },
+    cancelNotice: function(e) {
+      e.preventDefault();
+      e.data.instance.noticeDialog.remove();
     },
     chooseStorageProp: function() {
       if (this.$el.length > 1) {
@@ -111,9 +117,12 @@
       if (!this.noticeDialog || !this.noticeDialog.length || !this.noticeDialog.jquery) {
         this.noticeDialog = this._defaultNoticeDialog();
       }
-      this.noticeDialog.find("a").bind("click." + this.name, {
+      this.noticeDialog.on("click." + this.name, this.noticeConfirmSelector, {
         instance: this
       }, this.clickNotice);
+      this.noticeDialog.on("click." + this.name, this.noticeCancelSelector, {
+        instance: this
+      }, this.cancelNotice);
     },
     setName: function() {
       this.objName = this.objName || this.$el.attr("id");
@@ -137,7 +146,7 @@
     createNoticeDialog: function() {
       if (localStorage[this.objName]) {
         if (this.noticeDialog.length && this.noticeDialog.jquery) {
-          this.noticeDialog.prependTo(this.$el);
+          this.noticeDialog.prependTo(this.$el).show();
         }
         else {
           this.$el.find(this.noticeSelector).show();

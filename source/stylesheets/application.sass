@@ -1,0 +1,228 @@
+@import "mixins"
+
++font-face("Archivo", "../fonts/Archivo")
+
+$bg: #eed4b2
+$header: #451548
+$actions: #963e4c
+$version: #de702e
+$github: #f0c58c
+$readme: #f1bb74
+$readme_border: #ce8e66
+$text: #1e1c1a
+$code: #ea9c56
+$code_border: #c58263
+$input_border: #b5a194
+
+$font: "Archivo", Helvetica, Arial, sans-serif
+
+html, body
+  background: $bg
+
+h1, h2, h3
+  font-family: $font
+  font-weight: normal
+h1
+  font-size: 32px
+h2, h3
+  font-size: 18px
+  color: $header
+
+a
+  text-decoration: none
+  color: $actions
+
+body
+  font: normal 14px Helvetica, Arial, sans-serif
+  +font-smoothing
+  color: $text
+
+section
+  float: left
+  width: 48%
+  background: $readme
+  +box-shadow(0 0 7px rgba(0, 0, 0, .2))
+  + section
+    float: none
+    overflow: hidden
+    width: auto
+    padding: 60px 30px 30px 30px
+    background: $bg
+    +box-shadow(none)
+
+header
+  padding: 50px 12.5% 30px 12.5%
+  color: $version
+  border-bottom: 6px solid $actions
+  background: $header
+  h1,
+  a
+    color: $readme
+  h2
+    padding: 15px 0 10px 0
+    color: $version
+  p
+    font: normal 15px $font
+
+aside
+  padding: 0 12.5% 40px 12.5%
+  border-top: 6px solid $version
+  background: $github
+  +box-sizing
+  p
+    display: inline-block
+    padding: 10px
+    margin: 0 0 20px 0
+    font: normal 14px $font
+    color: $bg
+    background: $version
+  h2
+    padding: 0 0 10px 0
+  ul
+    padding: 0 0 10px 0
+  li
+    padding: 0 0 8px 0
+    a
+      &:before
+        display: inline-block
+        width: 16px
+        height: 16px
+        margin: 0 8px 0 0
+        vertical-align: -4px
+        content: ""
+        background: transparent url("/images/masks.png") 0 0 no-repeat
+  > a
+    display: inline-block
+    padding: 2px 10px 2px 2px
+    font: normal 18px $font
+    color: $readme
+    background: $actions
+    &:before
+      display: inline-block
+      width: 22px
+      height: 27px
+      margin: 0 8px 0 0
+      vertical-align: -7px
+      content: ""
+      background: transparent url("/images/masks.png") 0 -16px no-repeat
+
+article
+  padding: 35px 12.5%
+  border: 1px solid $readme_border
+  border-width: 1px 1px 0 0
+  background: $readme
+  +box-sizing
+  p
+    padding: 0 0 20px 0
+    line-height: 180%
+  h3
+    padding: 10px 0 15px 0
+  code
+    display: block
+    padding: 10px 15px
+    margin: 0 0 25px 0
+    line-height: 160%
+    color: $header
+    border: 1px solid $code_border
+    background: $code
+    mark
+      display: block
+      color: $text
+
+form
+  padding: 0 30px
+  div
+    display: none
+    padding: 18px 30px 20px 30px
+    margin: 0 -30px 30px -30px
+    text-align: center
+    background: $header
+    p
+      padding: 0 0 10px 0
+      font: normal 18px $font
+      text-align: left
+      color: $bg
+      &:before
+        display: inline-block
+        width: 25px
+        height: 23px
+        margin: 0 10px 0 0
+        vertical-align: -8px
+        content: ""
+        background: $version url("/images/masks.png") 0 100% no-repeat
+    a
+      display: inline-block
+      width: 58px
+      padding: 7px 0 5px 0
+      margin: 0 5px
+      font: normal 18px $font
+      text-align: center
+      color: $header
+      background: $github
+  h1
+    padding: 0 0 10px 0
+    font-size: 24px
+    color: $actions
+  p
+    padding: 0 0 20px 0
+    line-height: 160%
+  dt
+    padding: 0 0 10px 0
+    label
+      font: normal 16px $font
+  dd
+    padding: 0 0 15px 0
+  input[type="text"], textarea
+    width: 100%
+    height: 30px
+    padding: 0 5px
+    border: 1px solid $input_border
+    border-radius: 6px
+    +box-shadow(inset 0 1px 4px rgba(68, 21, 72, .3))
+    +box-sizing
+    &:focus
+      border-color: darken($input_border, 10%)
+      outline: none
+  textarea
+    padding: 5px
+    height: 90px
+    resize: none
+  select[multiple]
+    width: 100%
+    height: 90px
+    border: 1px solid #b5a194
+  input[type="submit"]
+    +appearance(none)
+    padding: 12px 30px
+    margin: 0 15px 0 0
+    font: normal 18px $font
+    color: $readme
+    border: none
+    background: $actions
+  input[type="reset"]
+    +appearance(none)
+    font: normal 18px $font
+    color: $actions
+    border: none
+    background: transparent
+  dl
+    float: left
+    width: 50%
+    padding: 0 10px 0 0
+    +box-sizing
+    &:nth-of-type(odd)
+      clear: both
+    &:nth-of-type(even)
+      padding: 0 0 0 10px
+    &:nth-of-type(5),
+      float: none
+      width: 100%
+      padding: 0
+    &:nth-of-type(6)
+      padding: 0 10px 0 0
+    &:nth-of-type(7)
+      clear: none
+      padding: 0 0 0 10px
+  li
+    display: inline-block
+    padding: 0 15px 10px 0

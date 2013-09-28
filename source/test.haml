@@ -1,0 +1,130 @@
+---
+layout: test
+---
+!!! 5
+%html(lang="en-US")
+  %head
+    %title QUnit Test Suite
+    = stylesheet_link_tag "qunit"
+    = javascript_include_tag "jquery", "jquery.remember-state", "qunit", "tests"
+  %body
+    %h1#qunit-header QUnit Test Suite
+    %h2#qunit-banner
+    #qunit-testrunner-toolbar
+    %h2#qunit-userAgent
+    %ol#qunit-tests
+    #qunit-fixture
+      %form(action="" method="post")
+        %fieldset
+        %dl
+          %dt
+            %label(for="first_name") First Name
+          %dd
+            %input#first_name(type="text" name="first_name")
+          %dt
+            %label(for="last_name") Last Name
+          %dd
+            %input#last_name(type="text" name="last_name")
+          %dt
+            %label(for="gender_female") Gender
+          %dd
+            %ul
+              %li
+                %label
+                  %input#gender_female(type="radio" name="gender" value="Female")
+                  Female
+              %li
+                %label
+                  %input#gender_male(type="radio" name="gender" value="Male")
+                  Male
+          %dt
+            %label(for="marital_status") Marital Status
+          %dd
+            %select#marital_status(name="marital_status")
+              %option(selected value="Single") Single
+              %option(value="Married") Married
+              %option(value="Divorced") Divorced
+              %option(value="Separated") Separated
+          %dt
+            %label(for="bio") Bio
+          %dd
+            %textarea#bio(name="bio" rows="8" cols="40")
+          %dt
+            %label(for="interests_video_games") Interests
+          %dd
+            %ul
+              %li
+                %label
+                  %input#checkbox_empty_value(type="checkbox" name="checkbox_empty_value")
+              %li
+                %label
+                  %input#interests_video_games(type="checkbox" name="video_games" value="Video games")
+                  Video games
+              %li
+                %label
+                  %input#interests_beach_walks(type="checkbox" name="beach_walks" value="Long walks on the beach")
+                  Long walks on the beach
+              %li
+                %label
+                  %input#interests_dendrophilia(type="checkbox" name="dendrophilia" value="Dendrophilia")
+                  Dendrophilia
+          %dt
+            %label(for="relationship_type") Looking for
+          %dd
+            %select#relationship_type(name="relationship_type" multiple)
+              %optgroup(label="Man")
+                %option(value="m_w") seeking women
+                %option(value="m_m") seeking men
+              %optgroup(label="Woman")
+                %option(value="w_m") seeking men
+                %option(value="w_w") seeking women
+        %h1 New Input Types
+        %dl
+          %dt
+            %label(for="email") input[type="email"]
+          %dd
+            %input(type="email" name="email" id="email")
+          %dt
+            %label(for="search") input[type="search"]
+          %dd
+            %input(type="search" name="search" id="search")
+          %dt
+            %label(for="color") input[type="color"]
+          %dd
+            %input(type="color" name="color" id="color")
+          %dt
+            %label(for="number") input[type="number"]
+          %dd
+            %input(type="number" name="number" id="number" min="0")
+          %dt
+            %label(for="week") input[type="week"]
+          %dd
+            %input(type="week" name="week" id="week" min="1901-W01")
+          %dt
+            %label(for="time") input[type="time"]
+          %dd
+            %input(type="time" name="time" id="time" min="06:00:00.00")
+          %dt
+            %label(for="month") input[type="month"]
+          %dd
+            %input(type="month" name="month" id="month" min="1901-01")
+          %dt
+            %label(for="date") input[type="date"]
+          %dd
+            %input(type="date" name="date" id="date" min="1901-01-01")
+          %dt
+            %label(for="datetime") input[type="datetime"]
+          %dd
+            %input(type="datetime" name="datetime" id="datetime" min="1901-01-01T06:00:00")
+          %dt
+            %label(for="datetime-local") input[type="datetime-local"]
+          %dd
+            %input(type="datetime-local" name="datetime-local" id="datetime-local" min="1901-01-01T06:00:00-06:00")
+          %dt
+            %label for="age_range") input[type="range"]
+          %dd
+            %input(type="range" name="age_range" id="age_range" min="18" max="100" step="1" value="18")
+            %span
+        %fieldset.actions
+          %input(type="submit" value="Save")
+          %input(type="reset" value="Delete")
