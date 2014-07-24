@@ -1,7 +1,7 @@
 (function($) {
   /* jQuery form remember state plugin
      Name: rememberState
-     Version: 1.4.0
+     Version: 1.4.1
      Description: When called on a form element, localStorage is used to
      remember the values that have been input up to the point of either
      saving or unloading. (closing window, navigating away, etc.) If
@@ -14,6 +14,7 @@
      Notes: To trigger the deletion of a form's localStorage object from
      outside the plugin, trigger the reset_state event on the form element
      by using $("form").trigger("reset_state");
+     To manually call restore state, call $("form").rememberState("restoreState");
   */
   if (!window.localStorage || !window.JSON) {
     if (console && console.log) {
@@ -39,9 +40,9 @@
     noticeSelector: ".remember_state",
     use_ids: false,
     objName: false,
-    clickNotice: function(e) {
-      var data = JSON.parse(localStorage.getItem(e.data.instance.objName)),
-          $f = e.data.instance.$el,
+    restoreState: function(e) {
+      var data = JSON.parse(localStorage.getItem(this.objName)),
+          $f = this.$el,
           $e;
       for (var i in data) {
         $e = $f.find("[name=\"" + data[i].name + "\"]");
@@ -59,12 +60,12 @@
         }
         $e.change();
       }
-      e.data.instance.noticeDialog.remove();
-      e.preventDefault();
+      this.noticeDialog.remove();
+      e && e.preventDefault && e.preventDefault();
     },
     cancelNotice: function(e) {
       e.preventDefault();
-      e.data.instance.noticeDialog.remove();
+      this.noticeDialog.remove();
     },
     chooseStorageProp: function() {
       if (this.$el.length > 1) {
@@ -117,12 +118,8 @@
       if (!this.noticeDialog || !this.noticeDialog.length || !this.noticeDialog.jquery) {
         this.noticeDialog = this._defaultNoticeDialog();
       }
-      this.noticeDialog.on("click." + this.name, this.noticeConfirmSelector, {
-        instance: this
-      }, this.clickNotice);
-      this.noticeDialog.on("click." + this.name, this.noticeCancelSelector, {
-        instance: this
-      }, this.cancelNotice);
+      this.noticeDialog.on("click." + this.name, this.noticeConfirmSelector, $.proxy(this.restoreState, this));
+      this.noticeDialog.on("click." + this.name, this.noticeCancelSelector, $.proxy(this.cancelNotice, this));
     },
     setName: function() {
       this.objName = this.objName || this.$el.attr("id");

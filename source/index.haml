@@ -20,7 +20,7 @@
         = link_to "Shane Riley", "http://shaneriley.com", rel: "author"
 
     %aside
-      %p Version: 1.4.0
+      %p Version: 1.4.1
       %h2 Source
       %ul
         %li= link_to "jquery.remember-state.js", "https://raw.github.com/shaneriley/jquery_remember_state/master/source/javascripts/jquery.remember-state.js"
@@ -51,6 +51,8 @@
       %h3 Usage
       %code $("form").rememberState("my_object_name");
 
+      %p To restore the saved form state manually rather than use a notice dialog:
+      %code $("form").rememberState("restoreState");
       %p If you'd like to save the form's state manually, call the rememberState method on the form after you've initialized it and pass it a string of save, like this:
       %code $("form").rememberState("save");
       %p There is also a teardown method for removing the bound events for a particular form. Passing a second argument of true will also destroy the localStorage object for that form.
