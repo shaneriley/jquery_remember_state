@@ -126,15 +126,16 @@
       if (!this.objName) { this.errorNoID(); }
     },
     bindResetEvents: function() {
+      var instance = this;
       if (this.clearOnSubmit) {
         this.$el.bind("submit." + this.name, function() {
-          this.$el.trigger("reset_state");
-          $(window).unbind("unload." + this.name);
+          $(this).trigger("reset_state");
+          $(window).unbind("unload." + instance.name);
         });
       }
 
       this.$el.bind("reset_state." + this.name, function() {
-        localStorage.removeItem(this.objName);
+        localStorage.removeItem(instance.objName);
       });
       this.$el.find(":reset").bind("click." + this.name, function() {
         $(this).closest("form").trigger("reset_state");
