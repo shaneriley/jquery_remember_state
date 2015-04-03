@@ -51,7 +51,7 @@
           $e.filter("[value=\"" + data[i].value + "\"]").prop("checked", true);
         }
         else if ($e.is(":checkbox") && data[i].value) {
-          $e = $f.find("[name=\"" + data[i].name + "\"][value=\"" + data[i].value + "\"]");
+          $e = $e.filter("[value=\"" + data[i].value + "\"]");
           if ($e.length) {
             $e.prop("checked", true);
           }
