@@ -46,11 +46,15 @@
           $e;
       for (var i in data) {
         $e = $f.find("[name=\"" + data[i].name + "\"]");
+
         if ($e.is(":radio")) {
           $e.filter("[value=\"" + data[i].value + "\"]").prop("checked", true);
         }
         else if ($e.is(":checkbox") && data[i].value) {
-          $e.prop("checked", true);
+          $e = $f.find("[name=\"" + data[i].name + "\"][value=\"" + data[i].value + "\"]");
+          if ($e.length) {
+            $e.prop("checked", true);
+          }
         }
         else if ($e.is("select")) {
           $e.find("[value=\"" + data[i].value + "\"]").prop("selected", true);
