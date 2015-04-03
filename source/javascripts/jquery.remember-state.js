@@ -40,6 +40,7 @@
     noticeSelector: ".remember_state",
     use_ids: false,
     objName: false,
+    restoreStateCallback: null,
     restoreState: function(e) {
       var data = JSON.parse(localStorage.getItem(this.objName)),
           $f = this.$el,
@@ -61,6 +62,11 @@
         $e.change();
       }
       this.noticeDialog.remove();
+
+      if (this.restoreStateCallback && typeof(this.restoreStateCallback) == 'function') {
+        this.restoreStateCallback();
+      }
+
       e && e.preventDefault && e.preventDefault();
     },
     cancelNotice: function(e) {
