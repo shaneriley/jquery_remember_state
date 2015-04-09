@@ -40,6 +40,7 @@
     noticeSelector: ".remember_state",
     use_ids: false,
     objName: false,
+    removeEmptyValues: null,
     restoreState: function(e) {
       var data = JSON.parse(localStorage.getItem(this.objName)),
           $f = this.$el,
@@ -93,6 +94,9 @@
         var $i = $(this);
         values.push({ name: $i.attr("name"), value: $i.val() });
       });
+      if (instance.removeEmptyValues) {
+        values = instance.removeEmpty(values);
+      }
       values = instance.removeIgnored(values);
       values.length && internals.setObject(instance.objName, values);
     },
@@ -113,6 +117,23 @@
       });
       values = $.grep(values, function(val) { return val; });
       return values;
+    },
+    removeEmpty: function(values) {
+      var self = this;
+      return values.filter(function(element) {
+          var $e = self.$el.find("[name=\"" + element.name + "\"]");
+          if (
+            ($e.is(":radio") && $e.is(":checked")) ||
+            ($e.is(":checkbox") && $e.is(":checked")) ||
+            ($e.is("select") && $e.find("option:selected").length && $e.find("option:selected").val()) ||
+            ($e.is(":text") && $e.val()) ||
+            ($e.is("textarea") && $e.val())
+          ) {
+            return true;
+          }
+
+          return false;
+        });
     },
     bindNoticeDialog: function() {
       if (!this.noticeDialog || !this.noticeDialog.length || !this.noticeDialog.jquery) {
