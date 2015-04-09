@@ -126,7 +126,8 @@
             ($e.is(":radio") && $e.is(":checked")) ||
             ($e.is(":checkbox") && $e.is(":checked")) ||
             ($e.is("select") && $e.find("option:selected").length && $e.find("option:selected").val()) ||
-            ($e.is(":text") && $e.val())
+            ($e.is(":text") && $e.val()) ||
+            ($e.is("textarea") && $e.val())
           ) {
             return true;
           }
