@@ -82,7 +82,7 @@
           " in an object name");
       }
     },
-    saveState: function(e) {
+    saveStateData: function(e) {
       var instance = e.data.instance;
       var values = instance.$el.serializeArray();
       // jQuery doesn't currently support datetime-local inputs despite a
@@ -94,6 +94,11 @@
         values.push({ name: $i.attr("name"), value: $i.val() });
       });
       values = instance.removeIgnored(values);
+      return values;
+    },
+    saveState: function(e) {
+      var instance = e.data.instance;
+      var values = instance.saveStateData(e);
       values.length && internals.setObject(instance.objName, values);
     },
     save: function() {
@@ -142,7 +147,7 @@
       });
     },
     createNoticeDialog: function() {
-      if (localStorage[this.objName]) {
+      if (localStorage[this.objName] && this.dataHasChanged()) {
         if (this.noticeDialog.length && this.noticeDialog.jquery) {
           this.noticeDialog.prependTo(this.$el).show();
         }
@@ -150,6 +155,14 @@
           this.$el.find(this.noticeSelector).show();
         }
       }
+    },
+    dataHasChanged: function() {
+      var instance = this;
+      if (!this.saveState) {
+        instance = this.data(remember_state.name);
+      }
+      var data = this.saveStateData({ data: { instance: instance } })
+      return JSON.stringify(data) !== localStorage.getItem(this.objName);
     },
     destroy: function(destroy_local_storage) {
       var namespace = "." + this.name;
